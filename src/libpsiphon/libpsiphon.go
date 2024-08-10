@@ -19,14 +19,14 @@ var (
 	Loop          = true
 	DefaultConfig = &Config{
 		CoreName: "psiphon-tunnel-core",
-		Tunnel:   1,
+		Tunnel:   2,
 		Region:   "",
 		Protocols: []string{
 			"FRONTED-MEEK-HTTP-OSSH",
 			"FRONTED-MEEK-OSSH",
 		},
-		TunnelWorkers:  6,
-		KuotaDataLimit: 4,
+		TunnelWorkers:  8,
+		KuotaDataLimit: 0,
 		Authorizations: make([]string, 0),
 	}
 	DefaultKuotaData = &KuotaData{
@@ -143,7 +143,7 @@ func (p *Psiphon) Start() {
 		)
 	}
 
-	p.LogInfo("Connecting", liblog.Colors["G1"])
+	p.LogInfo("Connecting", liblog.Colors["B1"])
 
 	for Loop {
 		p.KuotaData.Port[p.ListenPort] = make(map[string]float64)
@@ -192,7 +192,7 @@ func (p *Psiphon) Start() {
 							libutils.BytesToSize(p.KuotaData.Port[p.ListenPort][diagnosticID]),
 							libutils.BytesToSize(p.KuotaData.All),
 						),
-						liblog.Colors["G1"],
+						liblog.Colors["B1"],
 					)
 
 				} else if noticeType == "ActiveTunnel" {
@@ -200,7 +200,7 @@ func (p *Psiphon) Start() {
 					p.TunnelConnected++
 					if p.Config.Tunnel > 1 {
 						diagnosticID := line["data"].(map[string]interface{})["diagnosticID"].(string)
-						p.LogInfo(fmt.Sprintf("Connected (%s)", diagnosticID), liblog.Colors["Y1"])
+						p.LogInfo(fmt.Sprintf("Connected (%s)", diagnosticID), liblog.Colors["G1"])
 					}
 					if p.TunnelConnected == p.Config.Tunnel {
 						p.LogInfo("Connected", liblog.Colors["Y1"])
@@ -216,7 +216,7 @@ func (p *Psiphon) Start() {
 							message == "meek round trip failed: context deadline exceeded" ||
 							message == "meek round trip failed: EOF" ||
 							strings.Contains(message, "psiphon.CustomTLSDial")) {
-							p.LogVerbose(text, liblog.Colors["R1"])
+							p.LogVerbose(text, liblog.Colors["Y1"])
 							break
 						}
 					} else if strings.Contains(message, "controller shutdown due to component failure") ||
@@ -247,7 +247,7 @@ func (p *Psiphon) Start() {
 						strings.Contains(message, "API request rejected") ||
 						strings.Contains(message, "context canceled") ||
 						strings.Contains(message, "no such host") {
-						p.LogVerbose(message, liblog.Colors["G2"])
+						p.LogVerbose(message, liblog.Colors["P2"])
 						continue
 					} else if strings.Contains(message, "bind: address already in use") {
 						p.LogInfo("Port already in use", liblog.Colors["R1"])
