@@ -17,12 +17,12 @@ import (
 )
 
 const (
-	appName        = "Brainfuck Tunnel"
-	appVersionName = "Psiphon Pro Go"
-	appVersionCode = "1.3.210109"
+	appName        = "Psiphon Is Lazy"
+	appVersionName = "Psiphon Pro"
+	appVersionCode = "0.0.0.0"
 
-	copyrightYear   = "2020"
-	copyrightAuthor = "Aztec Rabbit"
+	copyrightYear   = "2025"
+	copyrightAuthor = "Victor Is Lazy"
 )
 
 var (
@@ -66,8 +66,10 @@ func main() {
 	defaultConfig.Inject.Type = 2
 	defaultConfig.Inject.Rules = map[string][]string{
 		"akamai.net:80": []string{
+			"prods-images.viu.com",
 			"video.iflix.com",
 			"videocdn-2.iflix.com",
+			"cdni.onionbootypics.com",
 			"iflix-videocdn-p1.akamaized.net",
 			"iflix-videocdn-p2.akamaized.net",
 			"iflix-videocdn-p3.akamaized.net",
@@ -78,7 +80,7 @@ func main() {
 	}
 	defaultConfig.Inject.Payload = ""
 	defaultConfig.Inject.Timeout = 5
-	defaultConfig.PsiphonCore = 4
+	defaultConfig.PsiphonCore = 2
 	defaultConfig.Psiphon = libpsiphon.DefaultConfig
 
 	if runtime.GOOS == "windows" {
